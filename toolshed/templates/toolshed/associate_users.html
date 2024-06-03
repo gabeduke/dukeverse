@@ -1,0 +1,12 @@
+{% extends "toolshed/base.html" %}
+
+{% block title %}Associate or Create Users{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Associate or Create Users</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+{% endblock %}

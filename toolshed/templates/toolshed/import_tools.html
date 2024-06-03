@@ -1,0 +1,12 @@
+{% extends "toolshed/base.html" %}
+
+{% block title %}Import Tools{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Import Tools from CSV</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+{% endblock %}

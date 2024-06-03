@@ -1,0 +1,39 @@
+{% extends "toolshed/base.html" %}
+
+{% block title %}Tool List{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Tool List</h1>
+    <form method="get" action="{% url 'tool_list' %}" class="form-inline mb-3">
+        <input type="text" name="q" class="form-control mr-sm-2" placeholder="Search tools" value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <div class="row">
+        {% for tool in tools %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tool.name }}</h5>
+                        <p class="card-text">{{ tool.tool_type }} - {{ tool.location }}</p>
+                        <p class="card-text"><small>Custodian: {{ tool.custodian.username }}</small></p>
+                        {% if tool.is_checked_out %}
+                            <p class="card-text"><small>Checked out by: {{ tool.checked_out_by.username }}</small></p>
+                        {% elif tool.assigned_to %}
+                            <p class="card-text"><small>Assigned to: {{ tool.assigned_to.username }}</small></p>
+                        {% endif %}
+                        <div class="d-flex justify-content-between">
+                            {% if user.is_authenticated %}
+                                {% if tool.is_checked_out %}
+                                    <a href="{% url 'checkin_tool' tool.id %}" class="btn btn-secondary btn-sm">Check in</a>
+                                {% else %}
+                                    <a href="{% url 'checkout_tool' tool.id %}" class="btn btn-primary btn-sm">Check out</a>
+                                    <a href="{% url 'assign_tool' tool.id %}" class="btn btn-info btn-sm">Assign</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

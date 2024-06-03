@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: dukeverse
+build:
+  artifacts:
+    - image: dukeman/toolshed
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - k8s/statefulset.yaml
+    - k8s/ingress.yaml
+    - k8s/service.yaml
+    - k8s/nginx-configmap.yaml
+    - k8s/nginx-service.yaml

@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: toolshed
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: toolshed.leetserve.com
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-aws-prod
+spec:
+  rules:
+    - host: toolshed.leetserve.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: toolshed
+                port:
+                  number: 8000
+          - path: /static/
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+          - path: /media/
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - toolshed.leetserve.com
+      secretName: toolshed-tls

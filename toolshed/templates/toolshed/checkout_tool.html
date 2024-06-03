@@ -1,0 +1,12 @@
+{% extends "toolshed/base.html" %}
+
+{% block title %}Checkout Tool{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Checkout Tool</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to check out {{ tool.name }}?</p>
+        <button type="submit" class="btn btn-primary">Check out</button>
+    </form>
+{% endblock %}

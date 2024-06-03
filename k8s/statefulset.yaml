@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: toolshed
+spec:
+  selector:
+    matchLabels:
+      app: toolshed
+  serviceName: "toolshed"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: toolshed
+    spec:
+      containers:
+        - name: toolshed
+          image: dukeman/toolshed
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DJANGO_STATIC_ROOT
+              value: /var/staticfiles
+            - name: DJANGO_MEDIA_ROOT
+              value: /var/media
+            - name: DJANGO_DB_PATH
+              value: /var/data/db.sqlite3
+            - name: SUPERUSER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: toolshed-secret
+                  key: SUPERUSER_USERNAME
+            - name: SUPERUSER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: toolshed-secret
+                  key: SUPERUSER_EMAIL
+            - name: SUPERUSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: toolshed-secret
+                  key: SUPERUSER_PASSWORD
+          volumeMounts:
+            - mountPath: /var/data
+              name: toolshed-db-volume
+            - mountPath: /var/staticfiles
+              name: toolshed-static-volume
+            - mountPath: /var/media
+              name: toolshed-media-volume
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 10"]
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+              name: nginx-config
+            - mountPath: /var/staticfiles
+              name: toolshed-static-volume
+            - mountPath: /var/data/media
+              name: toolshed-media-volume
+      volumes:
+        - name: toolshed-db-volume
+          persistentVolumeClaim:
+            claimName: toolshed-db-volume
+        - name: toolshed-static-volume
+          emptyDir: {}
+        - name: toolshed-media-volume
+          persistentVolumeClaim:
+            claimName: toolshed-media-volume
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+  volumeClaimTemplates:
+    - metadata:
+        name: toolshed-db-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 200Mi
+    - metadata:
+        name: toolshed-media-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 100Mi

@@ -1,0 +1,13 @@
+<!-- checkin_tool.html -->
+{% extends "toolshed/base.html" %}
+
+{% block title %}Checkin Tool{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Checkin Tool</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to check in {{ tool.name }}?</p>
+        <button type="submit" class="btn btn-primary">Check in</button>
+    </form>
+{% endblock %}

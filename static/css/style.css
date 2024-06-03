@@ -1,0 +1,19 @@
+.thumbnail-img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+.fullsize-img {
+    display: none;
+    max-width: 300px;
+}
+
+/* Show full-size image when accordion is open */
+.card-body .collapse.show .fullsize-img {
+    display: block;
+}
+
+.card-body .collapse.show .thumbnail-img {
+    display: none;
+}

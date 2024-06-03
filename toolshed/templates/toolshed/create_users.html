@@ -1,0 +1,18 @@
+{% extends "toolshed/base.html" %}
+
+{% block title %}Create Users{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Create Users</h1>
+    <p>The following users need to be created:</p>
+    <ul>
+        {% for username in new_users %}
+            <li>{{ username }}</li>
+        {% endfor %}
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+{% endblock %}
