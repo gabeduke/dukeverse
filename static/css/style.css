@@ -1,19 +1,69 @@
-.thumbnail-img {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
+/* Color Scheme */
+body {
+    background-color: #f7f3e9;
+    color: #5d4037;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.fullsize-img {
-    display: none;
-    max-width: 300px;
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: #795548;
 }
 
-/* Show full-size image when accordion is open */
-.card-body .collapse.show .fullsize-img {
-    display: block;
+/* Navbar */
+.navbar {
+    background-color: #5d4037;
+}
+.navbar-brand, .nav-link, .navbar-toggler-icon {
+    color: #f7f3e9 !important;  /* Change text color to light color for contrast */
 }
 
-.card-body .collapse.show .thumbnail-img {
-    display: none;
+/* Buttons */
+.btn-primary {
+    background-color: #795548;
+    border-color: #795548;
+}
+.btn-primary:hover {
+    background-color: #5d4037;
+    border-color: #5d4037;
+}
+.google-btn {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.google-btn img {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.card-header {
+    background-color: #795548;
+    color: #f7f3e9;
+    font-family: 'Playfair Display', serif;
+}
+.card-body {
+    background-color: #f7f3e9;
+}
+.card-footer {
+    background-color: #f7f3e9;
+    border-top: none;
+}
+.message-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
 }

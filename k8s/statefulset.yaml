@@ -40,6 +40,16 @@ spec:
                 secretKeyRef:
                   name: toolshed-secret
                   key: SUPERUSER_PASSWORD
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: toolshed-secret
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                  secretKeyRef:
+                    name: toolshed-secret
+                    key: GOOGLE_CLIENT_SECRET
           volumeMounts:
             - mountPath: /var/data
               name: toolshed-db-volume
